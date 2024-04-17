@@ -16,8 +16,9 @@ pip3 install -r requirements.txt
 ```
 
 ## Imitation Learning
+To ensure the instruction-following ability of LLMs to the game rules, we first let LLMs imitate the winning behaviors of GPT-4.
 
-
+To launch the imitation learning on LLaMA-2-7B-base, use the following command:
 ```bash
 torchrun --nproc_per_node=8 --master_port=6000 train.py \
     --output_dir <path_to_save_your_imitation_checkpoint> \
@@ -25,7 +26,7 @@ torchrun --nproc_per_node=8 --master_port=6000 train.py \
     --ref_model_name_or_path "Llama-2-7b-hf" \
     --lm_kl_coeff 0.1 \
     --train_method "sft_weighted_with_kl" \
-    --train_data_path <path_to_imitation_learning_data> \
+    --train_data_path "./data/train_imitation_gpt4.json" \
     --remove_unused_columns False \
     --num_train_epochs 1 \
     --per_device_train_batch_size 2 \
@@ -45,17 +46,22 @@ torchrun --nproc_per_node=8 --master_port=6000 train.py \
     --tf32 True  --bf16 True
 ```
 
+Here [`Llama-2-7b-hf`](https://huggingface.co/meta-llama/Llama-2-7b-hf) can be replaced by [`Baichuan2-13B-Base`](https://huggingface.co/baichuan-inc/Baichuan2-13B-Base) to reproduce the Baichuan-2 results in our paper.
+
+
 ## Self-play of Adversarial Language Game
 
+(To be finished)
 
 
 ## Reinforcement Learning on self-play episodes
 
+(To be finished)
 
 
 ## Citation
 ```
-@article{cheng2024SPAG,
+@article{cheng2024spag,
   title={Self-playing Adversarial Language Game Enhances LLM Reasoning},
   author={Cheng, Pengyu and Hu, Tianhao and Xu, Han and Zhang, Zhisong and Dai, Yong and Han, Lei and Du, Nan},
   journal={arXiv preprint arXiv:2404.10642},
