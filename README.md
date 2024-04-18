@@ -72,16 +72,16 @@ torchrun --nproc_per_node=8 --master_port=6000 tools/play_llm_game.py \
 	  --bf16 True  --tf32 True
 ```
 
-When the self-play collection finished, we access all the game episodes in `im_llama2_sampling_all_words_results.json` at `data/self_play_results/`.
+When the self-play collection is finished, we can access all the game episodes in `im_llama2_sampling_all_words_results.json` at `data/self_play_results/`.
 
 
 ## Reinforcement Learning on self-play episodes
-To conduct reinforment leanring on game episodes, we first calculate the outcomes by rule-based judgement and assign rewards to actions:
+To conduct reinforcement learning on game episodes, we first calculate the outcomes by rule-based judgment and assign rewards to actions:
 ```bash
 export PYTHONPATH=.
 
 python3 tools/assign_rewards.py \
-	 --input_data_path data/self_play_results/im_llama2_sampling_all_target_words_results.json 
+	 --input_data_path data/self_play_results/im_llama2_sampling_all_target_words_results.json \
 	 --output_data_path data/train_self_play_data_im_llama2.json
 ```
 
