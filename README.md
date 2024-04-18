@@ -49,9 +49,31 @@ torchrun --nproc_per_node=8 --master_port=6000 train.py \
 Here [`Llama-2-7b-hf`](https://huggingface.co/meta-llama/Llama-2-7b-hf) can be replaced by [`Baichuan2-13B-Base`](https://huggingface.co/baichuan-inc/Baichuan2-13B-Base) to reproduce the Baichuan-2 results in our paper.
 
 
-## Self-play of Adversarial Language Game
+## Self-play Collection
 
-(To be finished)
+After the imitation learning, we can conduct the self-play with the imitation-learned model on all targets words:
+
+```bash
+export PYTHONPATH=.
+
+torchrun --nproc_per_node=8 --master_port=6000 tools/play_llm_game.py \
+	  --taboo_max_turns 5 \
+	  --attacker_model_name_or_path <path_to_imitation_learned_model> \
+	  --defender_model_name_or_path <path_to_imitation_learned_model> \
+	  --model_prefix "im_llama2" \
+          --data_path "./data/all_target_words.txt" \
+          --output_dir "./data/self_play_results" \
+          --per_device_eval_batch_size 1 \
+	  --task_type "sampling" \
+	  --data_suffix "all_words" \
+	  --max_length 2048 \
+	  --max_new_tokens 256 \
+	  --logging_steps 5 \
+	  --bf16 True \
+	  --tf32 True
+```
+
+When the self-play collection finished, we access all the game episodes in `im_llama2_sampling_all_words_results.json` at `data/self_play_results/`.
 
 
 ## Reinforcement Learning on self-play episodes

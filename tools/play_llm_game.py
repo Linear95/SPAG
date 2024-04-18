@@ -14,7 +14,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import Dataset, DataLoader
 
 import transformers
-from transformers import GenerationConfig, AutoModelForCausalLM, AutoTokenizer, LlamaForCausalLM
+from transformers import GenerationConfig, AutoModelForCausalLM, AutoTokenizer
 
 from arguments import CustomTrainingArguments
 
@@ -22,9 +22,7 @@ from utils import print_rank_0, read_json_or_jsonl_data
 from utils import DEFAULT_PAD_TOKEN, DEFAULT_EOS_TOKEN, DEFAULT_BOS_TOKEN, DEFAULT_UNK_TOKEN
 from utils import convert_game_history_to_query
 
-from dataloaders import TextDataset, batch_padding
-
-IGNORE_INDEX = -100
+from dataloaders import batch_padding
 
 
 def load_keyword_list(args, data_path):
@@ -180,7 +178,9 @@ def main():
                 output_response = tokenizer.batch_decode(output_seq[idx], skip_special_tokens=True)[0] #only consider one sample
                 response_sample = output_response.replace(inputs_string[idx], '').split(tokenizer.eos_token)[0]
                 batch_games[idx]['history'].append({'role': next_player, 'content': response_sample})
+                
                 if "i know the word" in response_sample.lower() and next_player == 'defender':
+                    # early stop to speed up inference
                     all_outputs.append(batch_games[idx])
                     finished_ids.append(idx)
                     
