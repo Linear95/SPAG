@@ -124,12 +124,6 @@ class CustomTrainingArguments(TrainingArguments):
     )
 
     
-    
-    eval_at_start: bool = field(
-        default=False,
-        metadata={"help": "whether make eval at start."}
-    )
-
     debug_mode: bool = field(
         default=False,
         metadata={"help": "whether use the debug mode."}
@@ -143,16 +137,9 @@ class CustomTrainingArguments(TrainingArguments):
 
     length_penalty: float = field(default=1., metadata={"help": "the penalty for seq length."})
 
-    lm_loss_coeff: float = field(default=0., metadata={"help": "the coefficient for language modeling loss."})            
+    lm_sft_coeff: float = field(default=0., metadata={"help": "the coefficient for SFT data language modeling loss."})            
 
-    rm_kl_coeff: float = field(default=1., metadata={"help": "the coefficient for  kl regularizer."})
-
-    lm_kl_coeff: float = field(default=0., metadata={"help": "the coefficient for llm  kl regularizer."})
-
-    use_kl_mask: bool = field(
-        default=False,
-        metadata={"help": "whether calculate kl seperated from policy samples"}
-    )
+    lm_kl_coeff: float = field(default=0., metadata={"help": "the coefficient of kl regularizer."})
 
     max_length: int = field(
         default=256,

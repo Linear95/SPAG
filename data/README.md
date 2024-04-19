@@ -6,4 +6,6 @@
 
 - [`train_imitation_gpt4.json`](https://drive.google.com/file/d/1iqm4ZuZ_uMm0DaEZt_0ho4fv9WM4_tOo/view?usp=drive_link) converts `gpt4_game_top30k_results.json` into the instruction-tuning format, with different prompt templates randomly selected from `GAME_RULE_PROMPTS` in `utils.py`.
 
+- [`alpaca_train.json`](https://github.com/tatsu-lab/stanford_alpaca/blob/main/alpaca_data.json) is the SFT data from the [stanford_alpaca](https://github.com/tatsu-lab/stanford_alpaca) repo.
+
 

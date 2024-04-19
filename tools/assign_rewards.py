@@ -124,9 +124,10 @@ def compute_self_play_sample_rewards(game_episodes, decay_weight=0.8):
 
     all_game_num = attacker_game_num + defender_game_num
 
-    # to ensure that both attacker and defender have learning coefficient 1/2 in expectation
-    defender_weight, attacker_weight = all_game_num  / (2 * defender_game_num), all_game_num / (2 * attacker_game_num)
-
+    # to ensure that both attacker and defender have learning coefficient 1/2 in expectation.
+    defender_weight = all_game_num / (2 * defender_game_num) if defender_game_num > 0 else 0.
+    attacker_weight = all_game_num / (2 * attacker_game_num) if attacker_game_num > 0 else 0.
+    
     print(f"totally get {len(outputs)} data from {all_game_num} game, with {attacker_game_num} attacker games;  {defender_game_num} defender games.")
     
     print("reweight the sample with attacker_weight: {} ; defender_weight: {}".format(attacker_weight, defender_weight))
@@ -143,6 +144,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description ='parser for episode processing.')
     parser.add_argument("--input_data_path", type=str, default="", help="the path to input data.")
     parser.add_argument("--output_data_path", type=str, default="", help="the path to output data.")
+    parser.add_argument("--sft_data_path", type=str, default="", help="the path to load sft data.")    
     parser.add_argument("--decay_weight", type=float, default=0.8, help="the decay weight of reward.")
 
     args = parser.parse_args()
@@ -152,5 +154,15 @@ if __name__ == "__main__":
 
     results = compute_self_play_sample_rewards(game_episodes, args.decay_weight)
 
+    if args.sft_data_path:
+        with open(args.sft_data_path, 'r') as f:
+            sft_data = json.load(f)
+    else:
+        sft_data = []
+
+    for item in sft_data:
+        item['type'] = 'sft'
+        item['weight'] = 1.
+
     with open(args.output_data_path, 'w') as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+        json.dump(results + sft_data, f, ensure_ascii=False, indent=2)

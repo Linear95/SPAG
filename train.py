@@ -59,7 +59,7 @@ def train():
     if hasattr(model, "ref_model"):
         del model.ref_model
 
-    if args.train_method in ["sft_weighted_with_kl", "offlinePO"] \
+    if args.train_method in ["SFTwithKL", "OfflinePO"] \
       and args.ref_model_name_or_path:
         ref_model = AutoModelForCausalLM.from_pretrained(
             args.ref_model_name_or_path,
@@ -106,7 +106,7 @@ def train():
     # build trainer
     #---------------------------------------------------------------------------------
 
-    if args.train_method == "sft":
+    if args.train_method == "SFT":
         trainer = Trainer(
             model=model,
             tokenizer=tokenizer, 
@@ -115,7 +115,7 @@ def train():
             data_collator=lambda x: sft_data_collactor(args, x, tokenizer)
         )
         
-    elif args.train_method == "sft_weighted_with_kl":
+    elif args.train_method == "SFTwithKL":
         trainer = SFTWeightedWithKLTrainer(
             model=model,
             tokenizer=tokenizer, 
@@ -124,7 +124,7 @@ def train():
             data_collator=lambda x: offline_ppo_data_collactor(args, x, tokenizer)
         )
         
-    elif args.train_method == "offlinePO":
+    elif args.train_method == "OfflinePO":
         trainer = OfflineWeightedPolicyTrainer(
             model=model,
             tokenizer=tokenizer,
