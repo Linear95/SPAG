@@ -7,7 +7,14 @@
 This repo contains the implementation of the paper:
 
 - [Self-playing Adversarial Language Game Enhances LLM Reasoning](https://arxiv.org/abs/2404.10642)
-    
+
+We explore the **S**elf-**P**lay training of LLMs
+in an **A**dversarial language **G**ame (SPAG) named [*Adversarial Taboo*](https://arxiv.org/abs/1911.01622).
+With the training epoch of SPAG increasing, the LLM reasoning ability continuously improves as shown in plots below:
+<p align="center">
+  <img src="figures/spag-reasoning-plot.png" height="75%" width="75%">
+</p>
+
 
 ## Environment
 To build the running environment, use the following command:
@@ -86,9 +93,10 @@ python3 tools/assign_rewards.py \
 ```
 
 The output file `train_spag_data_im_llama2.json` is already in an instruction-tuning format, with following keywords:
-    - `query` \& `target`: the input and label for language modeling,
-    - `reward`: the reward assigned to current utterance (`target`),
-    - `weight`: the re-weighting paramenter to ensure that both attacker and defender have equal learning coefficient 1/2 in expectation.
+
+- `query` \& `target`: the input and label for language modeling,
+- `reward`: the reward assigned to current utterance (`target`),
+- `weight`: the re-weighting paramenter to ensure that both attacker and defender have equal learning coefficient 1/2 in expectation.
 
 Then the SPAG model can be learned with the following command:
 ```bash
