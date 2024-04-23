@@ -4,7 +4,7 @@ from typing import List
 from tqdm import tqdm
 import argparse
 
-# from textblob import TextBlob
+from textblob import TextBlob
 
 from utils import randomly_convert_game_history_to_query
 
@@ -13,8 +13,8 @@ PREDICT_TEMP = r"i know the word! it.{1,8}"
 def get_derivative_words(word: str):
     # fuzzy matching for similar words 
     word = word.lower()
-    # blob_word = TextBlob(word)
-    word_list = [word,  word+'ing', word+'ed', #blob_word.words.pluralize()[0],
+    blob_word = TextBlob(word)
+    word_list = [word,  word+'ing', word+'ed', blob_word.words.pluralize()[0],
                  f"`{word}`", f'"{word}"', f"'{word}'", f"\"{word}\""]
     
     return word_list
