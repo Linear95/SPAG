@@ -12,6 +12,7 @@ tiktoken
 einops
 rouge-chinese
 nltk
+textblob
 uvicorn
 pydantic
 fastapi
