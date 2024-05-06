@@ -22,12 +22,11 @@ def get_derivative_words(word: str):
 
 def has_target_word(content: str, target_word: str):
     derivative_words = get_derivative_words(target_word)
-    return any([word in content for word in derivative_words])
+    return any([word in content.lower() for word in derivative_words])
 
 
 def is_prediction(content: str, target_word: str):
-
-    if re.search(PREDICT_TEMP, content):
+    if re.search(PREDICT_TEMP, content.lower()):
         return True
     else:
         return False
@@ -36,7 +35,7 @@ def is_correct_prediction(content: str, target_word: str):
     derivative_words = get_derivative_words(target_word)
     predict_regex = [PREDICT_TEMP + word for word in derivative_words]
 
-    if any([re.search(temp, content) for temp in predict_regex]):
+    if any([re.search(temp, content.lower()) for temp in predict_regex]):
         return True
     else:
         return False
