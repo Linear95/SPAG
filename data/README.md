@@ -9,3 +9,8 @@
 - [`alpaca_train.json`](https://github.com/tatsu-lab/stanford_alpaca/blob/main/alpaca_data.json) is the SFT data from the [stanford_alpaca](https://github.com/tatsu-lab/stanford_alpaca) repo.
 
 
+- [`im_llama2_sampling_all_words_results.json`](https://drive.google.com/file/d/12QtjUb3hirajM2e5zfgnSduETmPnvb80/view?usp=drive_link) includes our inference about all game episodes of the LLaMA-2 imitation-learned model.
+
+- [`SPAG1_sampling_all_words_results.json`](https://drive.google.com/file/d/1nvJp_f6M9Mg7bcGnccUgITyW7nZ1hQ2C/view?usp=drive_link) includes our inference about all game episodes of the LLaMA-2 SPAG-1 model.
+
+- [`SPAG2_sampling_all_words_results.json`](https://drive.google.com/file/d/13Tf3PC5ioRzSTGCobMZWmx1uFWi4jS1F/view?usp=drive_link) includes our inference about all game episodes of the LLaMA-2 SPAG-2 model.
