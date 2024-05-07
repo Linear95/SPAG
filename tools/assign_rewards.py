@@ -72,7 +72,7 @@ def compute_self_play_sample_rewards(game_episodes, decay_weight=0.8):
     defender_game_num, attacker_game_num = 0, 0
     increase_weight = 1 / decay_weight
     outputs = []
-    for item in game_episodes:
+    for item in tqdm(game_episodes):
         outcome, history_length = get_game_outcome(item['history'], item['target_word'], item['max_turns'])
 
         if outcome == "attacker wins":
@@ -127,8 +127,7 @@ def compute_self_play_sample_rewards(game_episodes, decay_weight=0.8):
     defender_weight = all_game_num / (2 * defender_game_num) if defender_game_num > 0 else 0.
     attacker_weight = all_game_num / (2 * attacker_game_num) if attacker_game_num > 0 else 0.
     
-    print(f"totally get {len(outputs)} data from {all_game_num} game, with {attacker_game_num} attacker games;  {defender_game_num} defender games.")
-    
+    print(f"totally get {len(outputs)} data from {all_game_num} game, with {attacker_game_num} attacker games;  {defender_game_num} defender games.")    
     print("reweight the sample with attacker_weight: {} ; defender_weight: {}".format(attacker_weight, defender_weight))
 
     for item in outputs:
@@ -136,6 +135,7 @@ def compute_self_play_sample_rewards(game_episodes, decay_weight=0.8):
             item['weight'] = attacker_weight  
         else:
             item['weight'] = defender_weight
+            
     return outputs
 
             

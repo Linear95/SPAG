@@ -196,6 +196,28 @@ def randomly_convert_game_history_to_query(history, target_word, max_turns=5):
     return query
 
 
+def set_special_tokens(model, tokenizer):
+    
+    if tokenizer.pad_token is None and tokenizer.pad_token_id is None:
+        print_rank_0(f"====================================================")
+        print_rank_0(f"WARNING: the pad token of the tokenizer is None")
+        # We do not resize the vocab embedding, since it ruins the KL value with the ref_model
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+        tokenizer.pad_token = tokenizer.eos_token
+        # tokenizer.pad_token = tokenizer.decode(0)
+        print_rank_0(f"set pad token to {tokenizer.pad_token}")
+        print_rank_0(f"set pad token id to {tokenizer.pad_token_id}")
+        print_rank_0(f"====================================================")
+
+    model.config.pad_token_id = tokenizer.pad_token_id
+    model.config.bos_token_id = tokenizer.bos_token_id
+    model.config.eos_token_id = tokenizer.eos_token_id
+
+    print_rank_0(tokenizer)
+    return model, tokenizer
+
+
+
 def read_json_or_jsonl_data(data_path):
     if data_path[-5:] == ".json":
         with open(data_path, 'r') as f:
