@@ -14,8 +14,9 @@ def get_derivative_words(word: str):
     # fuzzy matching for similar words 
     word = word.lower()
     blob_word = TextBlob(word)
-    word_list = [word,  word+'ing', word+'ed', blob_word.words.pluralize()[0],
-                 f"`{word}`", f'"{word}"', f"'{word}'", f"\"{word}\""]
+    word_list = [word, word + 'ing', word + 'ed', blob_word.words.pluralize()[0]]
+    quotation_list = ["\"{word}\"", "'{word}'", '`{word}`']
+    word_list += [quotation.format(word=word) for quotation in quotation_list for word in word_list]
     
     return word_list
 
