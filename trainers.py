@@ -111,7 +111,7 @@ class OfflineWeightedPolicyTrainer(Trainer):
         ppo_loss = - torch.minimum(advantages * importance_ratio, advantages * importance_ratio_clipped)
 
         sample_size, sft_size = (1-inputs['sft_mask']).sum(), (inputs['sft_mask']).sum()
-        sft_loss = (- logprob * inputs['sft_mask'] * ).sum() / sft_size if sft_size > 0 else sft_size
+        sft_loss = (- logprob * inputs['sft_mask'] * inputs['weights']).sum() / sft_size if sft_size > 0 else sft_size
         ppo_loss = (ppo_loss * (1 - inputs['sft_mask']) * inputs['weights']).sum() / sample_size if sample_size > 0 else sample_size
         
         weighted_loss = self.args.lm_sft_coeff * sft_loss + ppo_loss                
