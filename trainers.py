@@ -111,13 +111,11 @@ class OfflineWeightedPolicyTrainer(Trainer):
         ppo_loss = - torch.minimum(advantages * importance_ratio, advantages * importance_ratio_clipped)
 
         sample_size, sft_size = (1-inputs['sft_mask']).sum(), (inputs['sft_mask']).sum()
-        sft_loss = (- logprob * inputs['sft_mask']).sum() / sft_size if sft_size > 0 else sft_size
-        ppo_loss = (ppo_loss * (1 - inputs['sft_mask'])).sum() / sample_size if sample_size > 0 else sample_size
+        sft_loss = (- logprob * inputs['sft_mask'] * inputs['weights']).sum() / sft_size if sft_size > 0 else sft_size
+        ppo_loss = (ppo_loss * (1 - inputs['sft_mask']) * inputs['weights']).sum() / sample_size if sample_size > 0 else sample_size
         
-        total_loss = self.args.lm_sft_coeff * sft_loss + ppo_loss                
+        weighted_loss = self.args.lm_sft_coeff * sft_loss + ppo_loss                
         
-        weighted_loss = (total_loss * inputs['weights']).mean() # [batch_size]
-
         if self.args.debug_mode:          
             print_rank_0(f"check loss : {loss}")
             print_rank_0(f"check weighted loss : {weighted_loss}")

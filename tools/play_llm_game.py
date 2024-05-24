@@ -20,7 +20,7 @@ from arguments import CustomTrainingArguments
 
 from utils import print_rank_0, read_json_or_jsonl_data
 from utils import DEFAULT_PAD_TOKEN, DEFAULT_EOS_TOKEN, DEFAULT_BOS_TOKEN, DEFAULT_UNK_TOKEN
-from utils import convert_game_history_to_query
+from utils import convert_game_history_to_query, set_special_tokens
 
 from dataloaders import batch_padding
 
@@ -77,11 +77,8 @@ def load_model_and_tokenizer(args, model_name_or_path):
         trust_remote_code=True
     )
 
-    if tokenizer.pad_token is None:
-        print_rank_0("Warning: pad token is None, set default value to 0")
-        tokenizer.pad_token = tokenizer.eos_token
-        tokenizer.pad_token_id = 0
-        
+    model, tokenizer = set_special_tokens(model, tokenizer)
+    
     return {"model": model, "tokenizer": tokenizer}
 
 

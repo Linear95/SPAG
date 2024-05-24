@@ -4,7 +4,7 @@ from typing import List
 from tqdm import tqdm
 import argparse
 
-# from textblob import TextBlob
+from textblob import TextBlob
 
 from utils import randomly_convert_game_history_to_query
 
@@ -13,21 +13,21 @@ PREDICT_TEMP = r"i know the word! it.{1,8}"
 def get_derivative_words(word: str):
     # fuzzy matching for similar words 
     word = word.lower()
-    # blob_word = TextBlob(word)
-    word_list = [word,  word+'ing', word+'ed', #blob_word.words.pluralize()[0],
-                 f"`{word}`", f'"{word}"', f"'{word}'", f"\"{word}\""]
+    blob_word = TextBlob(word)
+    word_list = [word, word + 'ing', word + 'ed', blob_word.words.pluralize()[0]]
+    quotation_list = ["\"{word}\"", "'{word}'", '`{word}`']
+    word_list += [quotation.format(word=word) for quotation in quotation_list for word in word_list]
     
     return word_list
 
 
 def has_target_word(content: str, target_word: str):
     derivative_words = get_derivative_words(target_word)
-    return any([word in content for word in derivative_words])
+    return any([word in content.lower() for word in derivative_words])
 
 
 def is_prediction(content: str, target_word: str):
-
-    if re.search(PREDICT_TEMP, content):
+    if re.search(PREDICT_TEMP, content.lower()):
         return True
     else:
         return False
@@ -36,7 +36,7 @@ def is_correct_prediction(content: str, target_word: str):
     derivative_words = get_derivative_words(target_word)
     predict_regex = [PREDICT_TEMP + word for word in derivative_words]
 
-    if any([re.search(temp, content) for temp in predict_regex]):
+    if any([re.search(temp, content.lower()) for temp in predict_regex]):
         return True
     else:
         return False
@@ -73,7 +73,7 @@ def compute_self_play_sample_rewards(game_episodes, decay_weight=0.8):
     defender_game_num, attacker_game_num = 0, 0
     increase_weight = 1 / decay_weight
     outputs = []
-    for item in game_episodes:
+    for item in tqdm(game_episodes):
         outcome, history_length = get_game_outcome(item['history'], item['target_word'], item['max_turns'])
 
         if outcome == "attacker wins":
@@ -128,8 +128,7 @@ def compute_self_play_sample_rewards(game_episodes, decay_weight=0.8):
     defender_weight = all_game_num / (2 * defender_game_num) if defender_game_num > 0 else 0.
     attacker_weight = all_game_num / (2 * attacker_game_num) if attacker_game_num > 0 else 0.
     
-    print(f"totally get {len(outputs)} data from {all_game_num} game, with {attacker_game_num} attacker games;  {defender_game_num} defender games.")
-    
+    print(f"totally get {len(outputs)} data from {all_game_num} game, with {attacker_game_num} attacker games;  {defender_game_num} defender games.")    
     print("reweight the sample with attacker_weight: {} ; defender_weight: {}".format(attacker_weight, defender_weight))
 
     for item in outputs:
@@ -137,6 +136,7 @@ def compute_self_play_sample_rewards(game_episodes, decay_weight=0.8):
             item['weight'] = attacker_weight  
         else:
             item['weight'] = defender_weight
+            
     return outputs
 
             

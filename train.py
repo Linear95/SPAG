@@ -21,7 +21,7 @@ from arguments import CustomTrainingArguments
 
 from trainers import SFTWeightedWithKLTrainer, OfflineWeightedPolicyTrainer
 
-from utils import print_rank_0, read_json_or_jsonl_data
+from utils import print_rank_0, read_json_or_jsonl_data, set_special_tokens
 from utils import DEFAULT_PAD_TOKEN, DEFAULT_BOS_TOKEN, DEFAULT_EOS_TOKEN, DEFAULT_UNK_TOKEN
 
 
@@ -90,19 +90,7 @@ def train():
 
     )
 
-    if tokenizer.pad_token is None:
-        # We do not resize the vocab embedding, since it ruins the KL value with the ref_model
-        tokenizer.pad_token_id = 0 
-        tokenizer.pad_token = tokenizer.decode(0)
-        print_rank_0("set pad token id to 0")
-
-    model.config.pad_token_id = tokenizer.pad_token_id
-    model.config.bos_token_id = tokenizer.bos_token_id
-    model.config.eos_token_id = tokenizer.eos_token_id
-
-
-    print_rank_0(tokenizer)
-
+    model, tokenizer = set_special_tokens(model, tokenizer)
     # build trainer
     #---------------------------------------------------------------------------------
 

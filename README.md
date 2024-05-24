@@ -10,12 +10,10 @@ This repo contains the implementation of the paper:
 
 We explore the **S**elf-**P**lay training of LLMs
 in an **A**dversarial language **G**ame (SPAG) named [*Adversarial Taboo*](https://arxiv.org/abs/1911.01622).
-
 <p align="center">
   <img src="figures/spag-reasoning-plot.png" height="80%" width="80%">
   <figcaption> Examples of Adversarial Taboo with the target word "conversation". Left is an attacker-winning game, while right is a defender-winning game.  </figcaption>
 </p>
-
 
 With the training epoch of SPAG increasing, the LLM reasoning ability continuously improves as shown in plots below:
 <p align="center">
@@ -28,6 +26,7 @@ To build the running environment, use the following command:
 ```
 pip3 install -r requirements.txt
 ```
+We train models and sampling episodes using 32 40G A100 GPUs with CUDA 11.0. The commands below are also compatible with 8 A100 GPUs.
 
 ## Imitation Learning
 To ensure the instruction-following ability of LLMs to the game rules, we first let LLMs imitate the winning behaviors of GPT-4.
