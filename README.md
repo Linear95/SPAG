@@ -9,15 +9,14 @@ This repo contains the implementation of the paper:
 - [Self-playing Adversarial Language Game Enhances LLM Reasoning](https://arxiv.org/abs/2404.10642)
 
 We explore the **S**elf-**P**lay training of LLMs
-in an **A**dversarial language **G**ame (SPAG) named [*Adversarial Taboo*](https://arxiv.org/abs/1911.01622).
+in an **A**dversarial language **G**ame (SPAG) named [*Adversarial Taboo*](https://arxiv.org/abs/1911.01622). In the following game examples with the target word "conversation", the attacker wins left while the defender wins right:
 <p align="center">
-  <img src="figures/spag-reasoning-plot.png" height="80%" width="80%">
-  <figcaption> Examples of Adversarial Taboo with the target word "conversation". Left is an attacker-winning game, while right is a defender-winning game.  </figcaption>
+  <img src="figures/game_examples.png" height="85%" width="85%">
 </p>
 
-With the training epoch of SPAG increasing, the LLM reasoning ability continuously improves as shown in plots below:
+With the training epoch of SPAG increasing, the LLM reasoning ability continuously improves as shown in the plots below:
 <p align="center">
-  <img src="figures/game_examples.png" height="80%" width="80%">
+  <img src="figures/spag-reasoning-plot.png" height="72%" width="72%">
 </p>
 
 
