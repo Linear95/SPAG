@@ -19,6 +19,8 @@ With the training epoch of SPAG increasing, the LLM reasoning ability continuous
   <img src="figures/spag-reasoning-plot.png" height="72%" width="72%">
 </p>
 
+Many thanks to [@thwu1](https://github.com/thwu1), who has reproduced the SPAG experiments and released model checkpoints ([Imitation Model](https://huggingface.co/ThWu/spag_im_ckpt), [SPAG-1](https://huggingface.co/ThWu/spag_spag1_ckpt), [SPAG-2](https://huggingface.co/ThWu/spag_spag2_ckpt), [SPAG-3](https://huggingface.co/ThWu/spag_spag3_ckpt)) on Huggingface 🤗!
+
 
 ## Environment
 To build the running environment, use the following command:
