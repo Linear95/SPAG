@@ -4,7 +4,7 @@
 [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/Linear95/SPAG/blob/main/DATA_LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
 
-This repo contains the implementation of the paper:
+This repo contains the implementation of NeurIPS 2024 paper:
 
 - [Self-playing Adversarial Language Game Enhances LLM Reasoning](https://arxiv.org/abs/2404.10642)
 
@@ -99,11 +99,11 @@ python3 tools/assign_rewards.py \
     --sft_data_path data/alpaca_train.json
 ```
 
-The output file `train_spag_data_im_llama2.json` is already in an instruction-tuning format, with following keywords:
+The output file `train_spag_data_im_llama2.json` is already in an instruction-tuning format, with the following keywords:
 
 - `query` \& `target`: the input and label for language modeling,
-- `reward`: the reward assigned to current utterance (`target`),
-- `weight`: the re-weighting paramenter to ensure that both attacker and defender have equal learning coefficient 1/2 in expectation.
+- `reward`: the reward assigned to the current utterance (`target`),
+- `weight`: the re-weighting parameter to ensure that both attacker and defender have an equal learning coefficient 1/2 in expectation.
 
 Then the SPAG model can be learned with the following command:
 ```bash
