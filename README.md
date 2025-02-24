@@ -138,10 +138,12 @@ By repeating the episode-collection and SPAG-learning processes, we can observe 
 ## Citation
 Please cite our paper if you find the code useful.
 ```
-@article{cheng2024spag,
-  title={Self-playing Adversarial Language Game Enhances LLM Reasoning},
-  author={Cheng, Pengyu and Hu, Tianhao and Xu, Han and Zhang, Zhisong and Dai, Yong and Han, Lei and Du, Nan},
-  journal={arXiv preprint arXiv:2404.10642},
-  year={2024}
+@inproceedings{cheng2024spag,
+ title = {Self-playing Adversarial Language Game Enhances LLM Reasoning},
+ author = {Cheng, Pengyu and Hu, Tianhao and Xu, Han and Zhang, Zhisong and Dai, Yong and Han, Lei and du, nan and Li, Xiaolong},
+ booktitle = {Advances in Neural Information Processing Systems},
+ pages = {126515--126543},
+ volume = {37},
+ year = {2024}
 }
 ```
